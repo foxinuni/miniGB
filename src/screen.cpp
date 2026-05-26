@@ -13,21 +13,50 @@
 #define TFT_MOSI 23
 #define TFT_SCLK 18
 #define TFT_MISO 19
-#define TFT_LED  22
+#define TFT_BCK  22
+
+#define NATIVE_WIDTH 160
+#define NATIVE_HEIGHT 144
+
 static SPIClass hspi(HSPI);
 static Adafruit_ST7789 screen(&hspi, TFT_CS, TFT_DC, TFT_RST);
 
-void screen_init() {
-    pinMode(TFT_LED, OUTPUT);
-    digitalWrite(TFT_LED, HIGH);
+static u16 frame[NATIVE_WIDTH * NATIVE_HEIGHT];
 
+void screen_init() {
+    // Se inicializa SPI
     hspi.begin(TFT_SCLK, TFT_MISO, TFT_MOSI, TFT_CS);
 
+    // Se configura la pantalla
     screen.init(TFT_WIDTH, TFT_HEIGHT);
-    screen.setRotation(0);
-    screen.fillScreen(ST77XX_BLACK);
-    screen.setTextColor(ST77XX_WHITE);
+    screen.setRotation(1);
+    screen.fillScreen(ST77XX_WHITE);
+    screen.setTextColor(ST77XX_BLACK);
     screen.setTextSize(2);
-    screen.setCursor(20, 140);
+    screen.setCursor(0, 0);
     screen.println("Hello ESP32!");
+
+    // Configuracion del pin de brillo
+    pinMode(TFT_BCK, OUTPUT);
+    digitalWrite(TFT_BCK, HIGH);
+}
+
+void screen_brightness(f32 percent) {
+    constexpr f32 MAX_BITS = 255.0f;
+    analogWrite(TFT_BCK, (int)(MAX_BITS * percent));
+}
+
+void screen_draw_line(const u16* pixels, u8 line) {
+    if (line >= LINE_MAX) {
+        return;
+    }
+
+    u16* row = &frame[line * NATIVE_WIDTH];
+    for (int x = 0; x < NATIVE_WIDTH; x++) {
+        row[x] = pixels[x];
+    }
+}
+
+void screen_next_frame() {
+    screen.drawRGBBitmap(0, 0, frame, NATIVE_WIDTH, NATIVE_HEIGHT);
 }
