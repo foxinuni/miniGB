@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "spi.h"
 #include "screen.h"
 #include "emulator.h"
 
@@ -9,6 +10,7 @@ void setup() {
     Serial.println("Initializing miniGB...");
 
     // Se inicializa los diferentes componentes
+    spi_init();
     screen_init();
 
     // Se inicializa el emulador
