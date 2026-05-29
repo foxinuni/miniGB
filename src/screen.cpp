@@ -2,7 +2,7 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
-#include "spi.h"
+#include "spi_coms.h"
 
 #define TFT_WIDTH 240
 #define TFT_HEIGHT 320

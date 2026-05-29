@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "spi.h"
+#include "spi_coms.h"
 #include "screen.h"
 #include "emulator.h"
 
