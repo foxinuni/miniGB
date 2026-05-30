@@ -32,7 +32,7 @@ void update_fan() {
     if (internal_temperature >= TEMP_THRESHOLD) {
         digitalWrite(FAN_PIN, HIGH);
     } else {
-      r  digitalWrite(FAN_PIN, LOW);
+        digitalWrite(FAN_PIN, LOW);
     }
 }
 
