@@ -1,12 +1,14 @@
 #include "emulator.h"
 
 #include <Arduino.h>
+
+#define ENABLE_SOUND 1
+#include "gb_apu.h"
 #include <peanut.h>
 
-#include "screen.h"
 #include "controls.h"
+#include "screen.h"
 #include "memory.h"
-#include "audio.h"
 
 #define NATIVE_WIDTH 160
 #define NATIVE_HEIGHT 144
@@ -46,11 +48,6 @@ u8 _emulator_boot_rom_read(gb_s* gb, const uf16 address);
 // RAM
 u8 _emulator_cart_ram_read(gb_s *gb, const uf32 address);
 void _emulator_cart_ram_write(gb_s *gb, const uf32 address, const u8 value);
-
-// Audio
-u8 _emulator_audio_read(u16 address);
-void _emulator_audio_write(u16 address, u8 value);
-void _emulator_audio_callback(void* ptr, u8* data, u32 length);
 
 // Archivos
 void _emulator_cart_file_read(const char* file_name, u8** buffer, const usize length);
@@ -92,6 +89,7 @@ bool emulator_init() {
 	}
 
     gb_init_lcd(&emulator, &_emulator_screen_draw_line);
+    gb_apu_init();
     gb_reset(&emulator);
 
     return true;
@@ -137,6 +135,7 @@ void emulator_next_frame() {
     }
 
     gb_run_frame(&emulator);
+    gb_apu_render_frame();
 }
 
 bool emulator_load_rom(const char* rom_name) {
@@ -199,20 +198,6 @@ void _emulator_cart_ram_write(gb_s *gb, const uf32 address, const u8 value) {
         return;
 
     cart_ram[address] = value;
-}
-
-// Audio
-u8 _emulator_audio_read(u16 address) {
-    // TO-DO: Implement audio read
-    return 0;
-}
-
-void _emulator_audio_write(u16 address, u8 value) {
-    // TO-DO: Implement audio write
-}
-
-void _emulator_audio_callback(void* ptr, u8* data, u32 length) {
-    audio_play_samples(data, length);
 }
 
 // Archivos

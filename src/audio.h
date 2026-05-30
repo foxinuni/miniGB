@@ -1,6 +1,6 @@
-#pragma
+#pragma once
 
 #include "common.h"
 
 void audio_init();
-void audio_play_samples(const u8* data, u32 length);
+void audio_play_tone(u32 freq_hz, const i16* samples, u32 count);
