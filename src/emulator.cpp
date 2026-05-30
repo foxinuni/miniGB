@@ -2,7 +2,9 @@
 
 #include <Arduino.h>
 #include <peanut.h>
+
 #include "screen.h"
+#include "controls.h"
 #include "memory.h"
 
 #define NATIVE_WIDTH 160
@@ -100,6 +102,38 @@ void emulator_reset() {
 
 void emulator_next_frame() {
     emulator.direct.joypad = 0xFF;
+
+    controls_t controls;
+    controls_poll(&controls);
+
+    if (controls.a) {
+        emulator.direct.joypad &= ~JOYPAD_A;
+        
+    }
+    
+    if (controls.b) {
+        emulator.direct.joypad &= ~JOYPAD_B;
+    }
+
+    if (controls.select) {
+        emulator.direct.joypad &= ~JOYPAD_START;
+    }
+
+    if (controls.left) {
+        emulator.direct.joypad &= ~JOYPAD_LEFT;
+    }
+
+    if (controls.right) {
+        emulator.direct.joypad &= ~JOYPAD_RIGHT;
+    }
+    
+    if (controls.up) {
+        emulator.direct.joypad &= ~JOYPAD_UP;
+    }
+
+    if (controls.down) {
+        emulator.direct.joypad &= ~JOYPAD_DOWN;
+    }
 
     // TO-DO: Handle key presses
     /*

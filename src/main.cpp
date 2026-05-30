@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "controls.h"
 #include "spi_coms.h"
 #include "memory.h"
 #include "screen.h"
@@ -11,6 +12,7 @@ void setup() {
     Serial.println("Initializing miniGB...");
 
     // Se inicializa los diferentes componentes
+    controls_init();
     spi_init();
     sd_init();
     screen_init();
