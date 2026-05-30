@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "spi_coms.h"
+#include "memory.h"
 #include "screen.h"
 #include "emulator.h"
 
@@ -11,6 +12,7 @@ void setup() {
 
     // Se inicializa los diferentes componentes
     spi_init();
+    sd_init();
     screen_init();
 
     // Se inicializa el emulador
