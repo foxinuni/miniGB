@@ -6,6 +6,7 @@
 #include "screen.h"
 #include "controls.h"
 #include "memory.h"
+#include "audio.h"
 
 #define NATIVE_WIDTH 160
 #define NATIVE_HEIGHT 144
@@ -135,33 +136,6 @@ void emulator_next_frame() {
         emulator.direct.joypad &= ~JOYPAD_DOWN;
     }
 
-    // TO-DO: Handle key presses
-    /*
-    if (button_pressed(0))
-        emulator.direct.joypad &= ~JOYPAD_A;
-
-    if (button_pressed(1))
-        emulator.direct.joypad &= ~JOYPAD_B;
-
-    if (button_pressed(2))
-        emulator.direct.joypad &= ~JOYPAD_START;
-
-    if (button_pressed(3))
-        emulator.direct.joypad &= ~JOYPAD_SELECT;
-
-    if (button_pressed(4))
-        emulator.direct.joypad &= ~JOYPAD_UP;
-
-    if (button_pressed(5))
-        emulator.direct.joypad &= ~JOYPAD_DOWN;
-
-    if (button_pressed(6))
-        emulator.direct.joypad &= ~JOYPAD_LEFT;
-
-    if (button_pressed(7))
-        emulator.direct.joypad &= ~JOYPAD_RIGHT;
-    */
-
     gb_run_frame(&emulator);
 }
 
@@ -238,7 +212,7 @@ void _emulator_audio_write(u16 address, u8 value) {
 }
 
 void _emulator_audio_callback(void* ptr, u8* data, u32 length) {
-    // TO-DO: Implement audio callback
+    audio_play_samples(data, length);
 }
 
 // Archivos
