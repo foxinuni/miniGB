@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#define JOYSTICK_THRESHOLD 0.75f
+#define JOYSTICK_THRESHOLD 0.50f
 #define JOYSTICK_CORRECTION 128 
 
 #define PIN_A 13
