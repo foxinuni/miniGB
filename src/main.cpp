@@ -5,6 +5,7 @@
 #include "memory.h"
 #include "screen.h"
 #include "emulator.h"
+#include "extras.h"
 
 void setup() {
     // Se inicia la comunicacion serial
@@ -13,6 +14,7 @@ void setup() {
 
     // Se inicializa los diferentes componentes
     controls_init();
+    extras_init();
     spi_init();
     sd_init();
     screen_init();
@@ -35,4 +37,5 @@ void setup() {
 void loop() {
     emulator_next_frame();
     screen_next_frame();
+    extras_update();
 }
