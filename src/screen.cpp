@@ -11,7 +11,7 @@
 #define TFT_DC   27
 #define TFT_RST  4
 #define TFT_BCK  22
-
+   
 #define NATIVE_WIDTH 160
 #define NATIVE_HEIGHT 144
 

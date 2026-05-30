@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <peanut.h>
 #include "screen.h"
+#include "memory.h"
 
 #define NATIVE_WIDTH 160
 #define NATIVE_HEIGHT 144
@@ -128,6 +129,35 @@ void emulator_next_frame() {
     */
 
     gb_run_frame(&emulator);
+}
+
+bool emulator_load_rom(const char* rom_name) {
+    sd_file_t rom_file;
+
+    if (!sd_open(&rom_file, rom_name)) {
+        Serial.println("Failed to find rom file");
+        return false;
+    }
+
+    if (rom) {
+        free(rom);
+        rom = nullptr;
+        rom_size = 0;
+    }
+
+    rom_size = sd_size(&rom_file);
+    rom = (u8*) malloc(rom_size);
+    
+    if (!rom) {
+        sd_close(&rom_file);
+        Serial.println("Failed to allocate ROM");
+        return false;
+    }
+
+    sd_read(&rom_file, rom, rom_size);
+    sd_close(&rom_file);
+
+    return true;
 }
 
 // ROM

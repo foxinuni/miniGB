@@ -15,6 +15,12 @@ void setup() {
     sd_init();
     screen_init();
 
+    // Se carga la rom por defecto
+    if (!emulator_load_rom("/game.gb")) {
+        Serial.println("Failed to load game rom...");
+        while (true) delay(100);
+    }
+
     // Se inicializa el emulador
     if (!emulator_init()) {
         Serial.println("Failed to initialize emulator! Halting...");

@@ -6,3 +6,4 @@
 bool emulator_init();
 void emulator_reset();
 void emulator_next_frame();
+bool emulator_load_rom(const char* rom_name);
